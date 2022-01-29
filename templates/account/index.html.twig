@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} MON COMPTE GREEN MIND {% endblock %}
+
+{% block content %}
+
+    <h1>MON COMPTE</h1>
+
+    Bienvenue {{ app.User.firstname }} dans votre compte, <br/> 
+    c'est dans cette espce que vous allez gerer vos information personnelles.
+    <br><br><br>
+    <a href="{{path('account_password')}}">Modifier mon mot de passe</a>
+    <br>
+    <a href="{{path('account_adress')}}">Gerer mes adresses</a>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!
+{% endblock %}
+
+{% block content %}
+
+	<section class="bg-light p-3">
+		<h1>Votre panier</h1>
+	</section>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Produit</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Total</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for element in dataPanier %}
+				<tr>
+					<td>{{element.produit.name}}</td>
+					<td>{{(element.produit.price/100) | number_format(2, ',', '.')}}
+						€</td>
+					<td>
+						<a href="{{path('remove_my_cart', {id: element.produit.id})}}" class="">
+							<i class="far fa-minus-square"></i>
+						</a>
+
+						{{element.quantite}}
+
+						<a href="{{path('add_to_cart', {id: element.produit.id})}}">
+							<i class="far fa-plus-square"></i>
+						</a>
+					</td>
+					<td>{{(element.quantite * element.produit.price)/100}}
+						€</td>
+					<td>
+
+
+						<a href="{{path('delete_cart', {id: element.produit.id})}}" class="btn btn-danger">
+							<i class="fas fa-trash-alt"></i>
+						</a>
+
+
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="5" class="text-center">Votre panier est vide
+					</td>
+				</tr>
+			{% endfor %}
+
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3">Total</td>
+				<td>{{ (total/100) | number_format(2, ',', '.')}}
+					€</td>
+				<td>
+					<a href="{{path('delete_all')}}" class="btn btn-danger">
+						<i class="fas fa-trash-alt"></i>
+					</a>
+				</td>
+
+
+			</tr>
+
+			<div class="">
+
+				<tr>
+
+					<td colspan="5">
+						<a href="" class='btn btn-success btn-block mt-3'>Valider mon panier</a>
+					</td>
+				</tr>
+
+			</div>
+		</tfoot>
+
+	</table>
+
+</div>{% endblock %}
