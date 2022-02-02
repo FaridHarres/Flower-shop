@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Adress;
 use App\Form\AdressType;
 use App\Repository\AdressRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AccountAdressController extends AbstractController
@@ -26,8 +28,14 @@ class AccountAdressController extends AbstractController
 
 
     #[Route('/compte/ajouter-adresse', name: 'account_adress_add')]
-    public function add(Request $req, EntityManagerInterface $entitymnager): Response
+    public function add(Request $req, EntityManagerInterface $entitymnager,  SessionInterface $sessionInterface, ProductRepository $productRepository): Response
     {
+
+        $panier = $sessionInterface->get("panier", []);
+
+        //on fabrique les données
+        $dataPanier = [];
+        $total = 0;
 
         $adress = new Adress();
         $form = $this->createForm(AdressType::class, $adress);
@@ -39,12 +47,31 @@ class AccountAdressController extends AbstractController
             $adress->setUser($this->getUser());
             $entitymnager->persist($adress);
             $entitymnager->flush();
-            return $this->redirectToRoute('account_adress');
+
+            foreach ($panier as $id => $quantite) {
+
+                $product = $productRepository->find($id);
+                if (!empty($panier[$id])) {
+
+                   
+                    return $this->redirectToRoute('order');
+
+                }else{
+                    return $this->redirectToRoute('account_adress');
+                }
+            }
+            
         };
         return $this->render('account/address_form.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
+
+
+
+
+
 
     #[Route('/compte/modifier-adresse/{id}', name: 'account_adress_edit')]
     public function edit(Request $req, AdressRepository $adressRepository, EntityManagerInterface $entitymnager): Response

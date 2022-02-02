@@ -8,48 +8,40 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class Cart
 {
 
-    private $session;
-
-
+    private $stack;
+ 
     public function __construct(RequestStack $stack)
  
     {
         return $this->stack = $stack;
     }
-
-
-
-
+ 
     public function add($id)
     {
-
-        $this->session->set('cart',[
-            [
-                'id'=> $id,
-                'quantity'=> 1,
-                
-            ]
-
-        
-            
-            ]);
-            
+ 
+        $session = $this->stack->getSession();
+        $cart = $session->get('cart', []);
+ 
+        if(!empty($cart[$id])){
+            $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+ 
+ 
+        $session->set('cart', $cart);
     }
-
-
+ 
     public function get()
     {
         $methodget = $this->stack->getSession();
-        return $this->session->get('cart');
+        return $methodget->get('cart');
     }
-
-    public function remove()
-    {
-        $methodget = $this->stack->getSession();
-        return $this->session->remove('cart');
-
-        
-
+ 
+    public function remove(){
+ 
+        $methodremove = $this->stack->getSession();
+        return $methodremove->remove('cart');
     }
     
 }
