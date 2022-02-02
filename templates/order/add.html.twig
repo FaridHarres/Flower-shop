@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande : GREEN MIND
+{% endblock %}
+
+{% block content %}
+
+	<h2>Mon recapitulatif</h2>
+	<p>Verfication avant paiement</p>
+	<hr>
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<strong>Mon adresse de livraison</strong><hr>
+			<div class="form-check mt-4 text-success">
+			{{delivery | raw}}
+			
+			</div>
+
+			<hr>
+			<strong>Mon Transporteur</strong>
+			<div class="form-check text-success">
+			
+			<hr>
+			{{carrier.name}}
+			<br>
+			{{carrier.description}}
+			<br>
+			{{(carrier.price)| number_format(2, ',', '.')}}
+			€
+			</div>
+
+		</div>
+		<div class="col-md-6">
+			<div class="text-center">
+				<b>Ma commande</b>
+
+			</div>
+
+			<div class="order-sumary text-success">
+				{% set total = null %}
+				{% for key,element in cart %}
+					<div class="row {% if key>0 %}mt-2{% endif %}">
+
+
+						<div class="col-2">
+							<img src="/uploads/{{ element.produit.illustration}}" alt="" height="70px" width="70px">
+						</div>
+						<div class="col-8 my-auto">
+							{{element.produit.name}}
+							<br>
+							<small>{{element.produit.subtitle}}
+								<br>
+								X
+								{{element.quantite}}
+							</small>
+						</div>
+						<div class="col-2 my-auto">
+							{{(element.quantite * element.produit.price)/100}}
+							€
+						</div>
+					</div>
+
+					{% set total = total +  (element.quantite * element.produit.price) %}
+				{% endfor %}
+
+			</div>
+			<strong>Sous-Total :
+			</strong>
+			{{ (total/100) | number_format(2, ',', '.')}}
+			€<br>
+			<strong>Livraison :
+			</strong>
+			{{ (carrier.price)| number_format(2, ',', '.')}}
+			€
+			<hr>
+			<strong>Total :
+			</strong>
+			{{((total/100) + (carrier.price))| number_format(2, ',', '.') }}
+			€
+			<a href="" class="btn btn-success btn-block mt-3">Payer | {{((total/100) + (carrier.price))| number_format(2, ',', '.') }} €</a>
+
+		</div>
+	</div>
+
+{% endblock %}

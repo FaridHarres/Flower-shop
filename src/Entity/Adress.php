@@ -27,7 +27,7 @@ class Adress
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $compagny;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -45,6 +45,11 @@ class Adress
     #[ORM\Column(type: 'string', length: 255)]
     private $phone;
 
+
+    public function __toString() //voila ce que je veux que tu renvoi
+    {
+        return $this->getName().'[br]'.$this->getAdress().'[br]'.$this->getCity().'-'.$this->getCountry();
+    }
     public function getId(): ?int
     {
         return $this->id;

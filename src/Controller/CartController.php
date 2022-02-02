@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 //premiere solution
 class CartController extends AbstractController
 {
+    
     #[Route('/mon-panier', name: 'cart')]
     public function index(SessionInterface $sessionInterface, ProductRepository $productRepository): Response
     {
@@ -149,4 +150,8 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart');
     }
+
+
+
+
 }

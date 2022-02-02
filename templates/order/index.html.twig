@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande : GREEN MIND
+{% endblock %}
+
+{% block content %}
+
+	<h2>je passe ma commande</h2>
+	<p>choisissez vos preference avant de passer votre commande</p>
+	<hr>
+
+	<div class="row">
+		<div class="col-md-6">
+			{% set formHtml %}
+				{{ form_start(form, {action:path('order_recap')}) }}
+					{{form_label(form.adresses, 'choisissez votre adresse de livraison')}}
+					<a href="{{path('account_adress_add')}}">Ajouter une nouvelle adresse</a>
+				{{ form_end(form) }}
+			{% endset %}
+
+			{{ formHtml|replace({'[br]':'<br/>'})|raw }}
+
+			</div>
+			<div class="col-md-6">
+			<div class="text-center">
+			<b>Recapitulatif de ma commande</b>
+			
+			</div>
+				
+				<div class="order-sumary">
+				
+								{% for key,element in cart %}
+					<div class="row {% if key>0 %}mt-2{% endif %}">
+					
+
+						<div class="col-2">
+							<img src="/uploads/{{ element.produit.illustration}}" alt="" height="70px" width="70px">
+						</div>
+						<div class="col-8 my-auto">
+							{{element.produit.name}}
+							<br>
+							<small>{{element.produit.subtitle}}
+							<br>
+							X
+							{{element.quantite}}</small>
+						</div>
+						<div class="col-2 my-auto">
+							{{(element.quantite * element.produit.price)/100}}
+						€
+						</div>
+					</div>
+
+
+				{% endfor %}
+				
+				</div>
+
+			</div>
+		</div>
+
+	{% endblock %}

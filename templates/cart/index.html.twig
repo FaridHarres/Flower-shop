@@ -21,6 +21,8 @@
 		</thead>
 
 		<tbody>
+
+		{% set total = null %}
 			{% for element in dataPanier %}
 				<tr>
 					<td>{{element.produit.name}}</td>
@@ -76,7 +78,7 @@
 				<tr>
 
 					<td colspan="5">
-						<a href="" class='btn btn-success btn-block mt-3'>Valider mon panier</a>
+						<a href="{{ path('order')}}" class='btn btn-success btn-block mt-3'>Valider mon panier</a>
 					</td>
 				</tr>
 
