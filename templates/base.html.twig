@@ -3,13 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="la plateform qui vous permez de donner une seconde vie à vos vegetaux>
+    <meta name="description" content="la plateform qui vous permez de donner une seconde vie à vos vegetaux">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
     		<script src="https://kit.fontawesome.com/6f4e25e570.js" crossorigin="anonymous"></script>
 
     <title>{% block title %} Seconde main {% endblock %}</title>
-
+{% block javascript %}
+    
+{% endblock %}
     <!-- Bootstrap core CSS -->
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
 
@@ -154,4 +156,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.js')}}"></script>
 </body>
+{% block script %}
+{% endblock %}
+
+
 </html>

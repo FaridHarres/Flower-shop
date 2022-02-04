@@ -22,7 +22,7 @@
 
 		<tbody>
 
-		{% set total = null %}
+			{% set total = null %}
 			{% for element in dataPanier %}
 				<tr>
 					<td>{{element.produit.name}}</td>
@@ -51,11 +51,15 @@
 
 					</td>
 				</tr>
+				{% set total = total +  (element.quantite * element.produit.price) %}
+
+
 			{% else %}
 				<tr>
 					<td colspan="5" class="text-center">Votre panier est vide
 					</td>
 				</tr>
+
 			{% endfor %}
 
 		</tbody>
