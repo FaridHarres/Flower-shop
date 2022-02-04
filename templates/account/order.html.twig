@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Mes Commandes : GREEN MIND
+{% endblock %}
+
+{% block content %}
+
+
+	<h1>Mes Commandes
+	</h1>
+
+	Bienvenue
+	{{ app.User.firstname }}
+	dans votre compte,
+	<br/>
+	c'est dans cette espace que vous allez gerer toutes vos commandes.
+	<br><br>
+	<a href="{{ path('account')}}">Revenir a votre compte</a>
+	<br>
+	{% if orders | length==0 %}
+	<hr>
+		<p class="text-center">
+			Vous n'avez pas encore passé de commande sur Green Mind
+		</p>
+	{% else %}
+		<table class="table mt-4">
+			<thead>
+				<tr>
+				<th scope="col">Reference</th>
+					<th scope="col">Passée le </th>
+					
+					<th scope="col">Produits</th>
+					<th scope="col">Total</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+					
+
+					<tr>
+						<td><span class="badges badge-success">
+						{{ order.Reference }}</span></td>
+						
+						<td>{{ order.createdAt | date('d/m/y')}}</td>
+						<td>{{ order.orderDetails | length }}</td>
+						<td>{{((order.carrierprice)/100 + (order.getTotal))|number_format(2, ',', '.')}} €</td>
+						<td class="text-right"> <a href="{{ path('account_order_show', {'reference': order.reference})}}"> voir ma commande</a></td>
+					</tr>
+
+				{% endfor %}
+
+
+			</tbody>
+		</table>
+	{% endif %}
+
+
+{% endblock %}

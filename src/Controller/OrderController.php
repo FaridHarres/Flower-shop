@@ -126,7 +126,12 @@ class OrderController extends AbstractController
             $delivry_content .= '<br/>' . $delivry->getAdress();
             $delivry_content .= '<br/>' . $delivry->getCodepostal() . '' . $delivry->getCity();
             $delivry_content .= '<br/>' . $delivry->getCountry();
+
             $order = new Order();
+
+            $reference = $date->format('dmy').'-'.uniqid();
+            $order->setReference($reference);
+            
             $order->setUser($this->getUser());
             $order->setCreatedAt($date);
             $order->setCarrierName($carriers->getName());
@@ -155,7 +160,7 @@ class OrderController extends AbstractController
 // dd( $product_for_stripe);
 
 
-            //$entitymnager->flush();
+            $entitymnager->flush();
 
 
            
@@ -166,7 +171,7 @@ class OrderController extends AbstractController
                 'cart' => $dataPanier,
                 'carrier' => $carriers,
                 'delivery' => $delivry_content,
-               
+                'reference'=>$order->getReference() //l'afficher dcans le fetch du add.html.twig
             ]);
         }
 

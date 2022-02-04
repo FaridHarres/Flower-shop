@@ -3,17 +3,20 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 //premiere solution
 class CartController extends AbstractController
 {
-    
+
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/mon-panier', name: 'cart')]
     public function index(SessionInterface $sessionInterface, ProductRepository $productRepository): Response
     {
@@ -50,6 +53,7 @@ class CartController extends AbstractController
 
 
 
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/error', name: 'error')]
     public function error(): Response
     {
@@ -63,7 +67,7 @@ class CartController extends AbstractController
 
 
 
-
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/cart/add/{id}', name: 'add_to_cart')]
     public function add(Request $req, SessionInterface $sessionInterface, ProductRepository $productRepository): Response //il est aller chercher la class Cart qui la refiler à cart pour pouvoir utiliser les propriété de la class 
     {
@@ -96,6 +100,8 @@ class CartController extends AbstractController
     }
 
 
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/cart/remove/{id}', name: 'remove_my_cart')]
     public function remove(Request $req, SessionInterface $sessionInterface): Response //il est aller chercher la class Cart qui la refiler à cart pour pouvoir utiliser les propriété de la class 
     {
@@ -118,6 +124,8 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart');
     }
 
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/cart/delete/{id}', name: 'delete_cart')]
     public function delete(Request $req, SessionInterface $sessionInterface): Response //il est aller chercher la class Cart qui la refiler à cart pour pouvoir utiliser les propriété de la class 
     {
@@ -137,6 +145,8 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart');
     }
 
+
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/cart/delete}', name: 'delete_all')]
     public function deleteAll(SessionInterface $sessionInterface): Response //il est aller chercher la class Cart qui la refiler à cart pour pouvoir utiliser les propriété de la class 
     {
