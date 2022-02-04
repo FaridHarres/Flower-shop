@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+
+use Stripe\Stripe;
 use App\Entity\Order;
 use App\Form\OrderType;
 use App\Entity\OrderDetails;
+use Stripe\Checkout\Session;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Symfony\Component\HttpFoundation\Session\Session;
 
 class OrderController extends AbstractController
 {
@@ -130,6 +134,9 @@ class OrderController extends AbstractController
             $order->setDelivery($delivry_content);
             $order->setisPaid(0);
             $entitymnager->persist($order);
+
+
+
                 foreach ($dataPanier as $product) {
 
                     //dd($dataPanier);
@@ -143,16 +150,23 @@ class OrderController extends AbstractController
                     // dd($orderDetails);
                     $orderDetails->setTotal($product['produit']->getPrice() / 100 * $product['quantite']);
                     $entitymnager->persist($orderDetails);
-                }
+
+                };
+// dd( $product_for_stripe);
 
 
-            $entitymnager->flush();
+            //$entitymnager->flush();
+
+
+           
+           
 
             return $this->render('order/add.html.twig', [
 
                 'cart' => $dataPanier,
                 'carrier' => $carriers,
                 'delivery' => $delivry_content,
+               
             ]);
         }
 
