@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
+use App\Repository\UserRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,7 @@ class OrderSuccessController extends AbstractController
     
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/commande/merci/{stripeSessionId}', name: 'order_validate')]
-    public function index($stripeSessionId, EntityManagerInterface $entitymnager, OrderRepository $orderRepository, SessionInterface $sessionInterface): Response
+    public function index($stripeSessionId, EntityManagerInterface $entitymnager, OrderRepository $orderRepository, SessionInterface $sessionInterface, UserRepository $userRepository): Response
     {
 
         $order=$orderRepository->findOneByStripeSessionId($stripeSessionId);
@@ -36,7 +38,9 @@ class OrderSuccessController extends AbstractController
             $order->setIsPaid(1);
             
             $entitymnager->flush();
-
+            $email = new Mail();
+            $content="Bonjour". $order->getUser()->getFirstName() ."<br/> Bienvenue sur le premier site de revente de fleures non vendu par les fleuristes <br/> Nous vous remercions pour votre commande" ;
+            $email ->send($order->getUser()->getEmail(),$order->getUser()->getFirstName(), 'Votre commande est bien validée', $content );
 
 
 
